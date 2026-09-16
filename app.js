@@ -195,6 +195,7 @@ function selectBusiness(id, closeGate=true){
   updateBusinessSpecificNavigation();
   if(closeGate) $('#businessGate').classList.add('hidden');
   refresh();
+  requestAnimationFrame(()=>window.scrollTo({top:0,left:0,behavior:'auto'}));
 }
 
 function renderBusinessGate(){
@@ -1424,6 +1425,20 @@ function renderProportionRows(){
       if(row) row.nombre=e.target.value;
       calculateProportions();
     });
+    const percentInput=el.querySelector('.ingredient-percent');
+    percentInput?.addEventListener('focus',e=>{
+      setTimeout(()=>{
+        try{ e.target.select(); }catch(_){}
+      },0);
+    });
+    percentInput?.addEventListener('click',e=>{
+      if(document.activeElement===e.target){
+        setTimeout(()=>{
+          try{ e.target.select(); }catch(_){}
+        },0);
+      }
+    });
+
     el.querySelector('.ingredient-percent')?.addEventListener('input',e=>{
       const row=proportionRowsState.find(r=>r.id===id);
       if(!row) return;
@@ -1845,6 +1860,11 @@ $('#orderForm').addEventListener('submit',e=>{
 });
 
 window.addEventListener('resize',()=>requestAnimationFrame(drawChart));
+
+if('scrollRestoration' in history){
+  history.scrollRestoration='manual';
+}
+window.scrollTo(0,0);
 
 saveState();
 refresh();

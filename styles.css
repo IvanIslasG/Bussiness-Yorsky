@@ -1400,3 +1400,154 @@ table input[type="checkbox"]{
     }
   }
 }
+
+
+/* --- Mobile layout definitive fix v1.20 --- */
+@media (max-width:760px){
+  .sidebar,
+  .app-shell.sidebar-collapsed .sidebar{
+    display:none !important;
+    position:fixed !important;
+    inset:0 auto 0 0 !important;
+    width:min(82vw,280px) !important;
+    height:100dvh !important;
+    min-height:0 !important;
+    margin:0 !important;
+    z-index:80 !important;
+    transform:none !important;
+    overflow-y:auto;
+  }
+
+  .sidebar.open,
+  .app-shell.sidebar-collapsed .sidebar.open{
+    display:flex !important;
+  }
+
+  .app-shell,
+  .app-shell.sidebar-collapsed{
+    display:block !important;
+    min-height:0 !important;
+    height:auto !important;
+  }
+
+  .main{
+    width:100% !important;
+    min-height:0 !important;
+  }
+
+  .topbar{
+    position:relative !important;
+    top:auto !important;
+  }
+}
+
+
+/* --- Proporciones: mobile layout v1.20 --- */
+@media (max-width:760px){
+  #view-proporciones,
+  #view-proporciones .panel,
+  #view-proporciones .dashboard-grid,
+  #view-proporciones .proportion-builder,
+  #view-proporciones .proportion-rows,
+  #view-proporciones .proportion-row,
+  #view-proporciones label,
+  #view-proporciones input,
+  #view-proporciones .ingredient-grams-box{
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+
+  #view-proporciones .dashboard-grid.lower{
+    display:block !important;
+  }
+
+  #view-proporciones .dashboard-grid.lower > .panel{
+    width:100% !important;
+    margin-bottom:16px;
+  }
+
+  .proportion-row{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) 46px !important;
+    grid-template-areas:
+      "ingredient ingredient ingredient"
+      "percent result remove" !important;
+    gap:12px !important;
+    width:100% !important;
+    padding:14px !important;
+    align-items:end !important;
+  }
+
+  .proportion-row-number{
+    display:none !important;
+  }
+
+  .proportion-row > label:first-of-type{
+    grid-area:ingredient;
+    width:100%;
+  }
+
+  .proportion-row > label:nth-of-type(2){
+    grid-area:percent;
+    width:100%;
+  }
+
+  .proportion-row .ingredient-grams-box{
+    grid-area:result !important;
+    width:100% !important;
+    height:48px;
+    padding:7px 10px;
+  }
+
+  .proportion-row .remove-proportion-row{
+    grid-area:remove;
+    width:46px;
+    height:48px;
+    align-self:end;
+  }
+
+  .proportion-row input{
+    width:100% !important;
+    max-width:100% !important;
+  }
+
+  .percent-input-wrap{
+    width:100% !important;
+  }
+
+  .percent-input-wrap input{
+    width:100% !important;
+    padding-right:34px !important;
+  }
+
+  .proportion-total-card{
+    width:100% !important;
+  }
+
+  .proportion-builder .modal-actions{
+    width:100%;
+  }
+
+  .proportion-builder .modal-actions button{
+    width:100%;
+  }
+
+  .candle-result-layout,
+  .candle-result-details{
+    width:100%;
+    min-width:0;
+  }
+}
+
+@media (max-width:390px){
+  .proportion-row{
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr) 44px !important;
+    gap:8px !important;
+    padding:12px !important;
+  }
+
+  .proportion-row .ingredient-grams-box{
+    padding:7px 8px;
+  }
+}
