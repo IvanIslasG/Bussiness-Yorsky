@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#161616" />
+  <title>Negocios | Nektara & Velas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="business-gate" id="businessGate">
+    <div class="business-gate-inner">
+      <div class="gate-brand">
+        <div class="brand-mark large">N</div>
+        <div>
+          <span class="eyebrow dark">Gestión de emprendimientos</span>
+          <h1>¿Qué negocio quieres gestionar?</h1>
+          <p>Selecciona un emprendimiento o crea uno nuevo.</p>
+        </div>
+      </div>
+
+      <div class="business-selector-grid" id="businessSelectorGrid"></div>
+
+      <div class="gate-footer">
+        <button class="secondary-btn" id="enterConsolidatedBtn">Ver todos los negocios</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="businessModalBackdrop">
+    <div class="modal small-modal">
+      <div class="modal-head">
+        <div>
+          <h2>Nuevo emprendimiento</h2>
+          <p>Se integrará automáticamente al panel general.</p>
+        </div>
+        <button class="icon-button" id="closeBusinessModalBtn">✕</button>
+      </div>
+
+      <form id="businessForm">
+        <div class="form-grid">
+          <label>
+            Nombre del negocio
+            <input name="nombre" required placeholder="Ej. Dulce Raíz" />
+          </label>
+          <label>
+            Icono
+            <input name="icono" maxlength="4" placeholder="Ej. 🌿" value="✨" />
+          </label>
+          <label>
+            Tipo de negocio
+            <input name="tipo" placeholder="Ej. Repostería, accesorios, cosmética..." />
+          </label>
+          <label>
+            Moneda
+            <select name="moneda">
+              <option value="MXN">MXN - Peso mexicano</option>
+              <option value="USD">USD - Dólar</option>
+            </select>
+          </label>
+        </div>
+        <label class="full">
+          Descripción
+          <textarea name="descripcion" rows="3" placeholder="¿Qué vende o qué servicio ofrece?"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelBusinessBtn">Cancelar</button>
+          <button type="submit" class="primary-btn">Crear negocio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">N</div>
+        <div class="brand-copy">
+          <strong>Negocios</strong>
+          <small>Gestión para Yorsky</small>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Contraer menú">‹</button>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="resumen">◫ <span>Resumen</span></button>
+        <button class="nav-item" data-view="pedidos">▣ <span>Pedidos</span></button>
+        <button class="nav-item" data-view="productos">◇ <span>Productos</span></button>
+        <button class="nav-item" data-view="inventario">▤ <span>Inventario</span></button>
+        <button class="nav-item" data-view="produccion">⚙ <span>Producción</span></button>
+        <button class="nav-item velas-only" data-view="proporciones" style="display:none">⚖ <span>Proporciones</span></button>
+        <button class="nav-item" data-view="clientes">◎ <span>Clientes</span></button>
+        <button class="nav-item" data-view="gastos">$ <span>Gastos</span></button>
+        <button class="nav-item" data-view="reportes">↗ <span>Reportes</span></button>
+        <button class="nav-item" data-view="catalogos">▦ <span>Catálogos</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" data-view="configuracion">⚙ <span>Configuración</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-only" id="menuBtn" aria-label="Abrir menú">☰</button>
+          <div>
+            <h1 id="pageTitle">Resumen</h1>
+            <p id="pageSubtitle">Vista general del negocio</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="secondary-btn" id="changeBusinessBtn">↩ Cambiar negocio</button>
+          <button class="primary-btn" id="newOrderBtn">+ Nuevo pedido</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="view active" id="view-resumen">
+          <div class="hero-card">
+            <div>
+              <span class="eyebrow">Este mes</span>
+              <h2>Control claro de ventas, costos y pedidos</h2>
+              <p>Una sola vista para Nektara y Velas, con datos separados o consolidados.</p>
+            </div>
+            <button class="secondary-btn" data-view-jump="pedidos">Ver pedidos</button>
+          </div>
+
+          <div class="metrics-grid" id="metricsGrid"></div>
+
+          <div class="dashboard-grid">
+            <article class="panel chart-panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Ingresos, gastos y utilidad</h3>
+                  <p>Comparativo mensual</p>
+                </div>
+                <div class="segmented">
+                  <button class="seg active" data-series="ingresos">Ingresos</button>
+                  <button class="seg" data-series="gastos">Gastos</button>
+                  <button class="seg" data-series="utilidad">Utilidad</button>
+                </div>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="lineChart" width="900" height="320"></canvas>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Pedidos recientes</h3>
+                  <p>Seguimiento rápido</p>
+                </div>
+                <button class="text-btn" data-view-jump="pedidos">Ver todos</button>
+              </div>
+              <div id="recentOrders" class="order-list"></div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid lower">
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Stock bajo</h3>
+                  <p>Productos o insumos que requieren atención</p>
+                </div>
+                <button class="text-btn" data-view-jump="inventario">Inventario</button>
+              </div>
+              <div id="lowStockList" class="stock-list"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Negocios</h3>
+                  <p>Comparación rápida</p>
+                </div>
+              </div>
+              <div id="businessCards" class="business-cards"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-pedidos">
+          <div class="section-actions">
+            <div>
+              <h2>Pedidos</h2>
+              <p>Captura, seguimiento, cobros y entregas.</p>
+            </div>
+            <button class="primary-btn" id="newOrderBtn2">+ Nuevo pedido</button>
+          </div>
+          <div class="panel table-panel">
+            <div class="table-toolbar">
+              <input id="orderSearch" type="search" placeholder="Buscar cliente o pedido..." />
+              <select id="orderStatusFilter">
+                <option value="all">Todos los estados</option>
+                <option value="Nuevo">Nuevo</option>
+                <option value="Preparando">Preparando</option>
+                <option value="Listo">Listo</option>
+                <option value="Entregado">Entregado</option>
+                <option value="Pagado">Pagado</option>
+              </select>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Negocio</th>
+                    <th>Entrega</th>
+                    <th>Total</th>
+                    <th>Saldo</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="view generic-view" id="view-productos"></section>
+        <section class="view generic-view" id="view-inventario"></section>
+        <section class="view generic-view" id="view-produccion"></section>
+        <section class="view" id="view-proporciones"></section>
+        <section class="view generic-view" id="view-clientes"></section>
+        <section class="view generic-view" id="view-gastos"></section>
+        <section class="view generic-view" id="view-reportes"></section>
+        <section class="view" id="view-catalogos"></section>
+        <section class="view generic-view" id="view-configuracion"></section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h2>Nuevo pedido</h2>
+          <p>Captura rápida desde computadora o celular.</p>
+        </div>
+        <button class="icon-button" id="closeModalBtn">✕</button>
+      </div>
+
+      <form id="orderForm">
+        <div class="form-grid">
+          <label>
+            Cliente
+            <input name="cliente" required placeholder="Nombre del cliente" />
+          </label>
+          <label>
+            Negocio
+            <select name="negocio" required>
+              <option value="Nektara">🍯 Nektara</option>
+              <option value="Velas">🕯️ Velas</option>
+            </select>
+          </label>
+          <label>
+            Producto
+            <input name="producto" required placeholder="Producto o descripción" />
+          </label>
+          <label>
+            Cantidad
+            <input name="cantidad" type="number" min="1" value="1" required />
+          </label>
+          <label>
+            Total
+            <input name="total" type="number" min="0" step="0.01" required placeholder="0.00" />
+          </label>
+          <label>
+            Anticipo
+            <input name="anticipo" type="number" min="0" step="0.01" value="0" />
+          </label>
+          <label>
+            Fecha de entrega
+            <input name="entrega" type="date" required />
+          </label>
+          <label>
+            Estado
+            <select name="estado">
+              <option>Nuevo</option>
+              <option>Preparando</option>
+              <option>Listo</option>
+              <option>Entregado</option>
+              <option>Pagado</option>
+            </select>
+          </label>
+        </div>
+        <label class="full">
+          Notas
+          <textarea name="notas" rows="3" placeholder="Detalles del pedido..."></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelOrderBtn">Cancelar</button>
+          <button type="submit" class="primary-btn">Guardar pedido</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
